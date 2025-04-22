@@ -8,9 +8,11 @@ AttendanceCV is an advanced facial recognition system designed to automate atten
 
 - **Facial Recognition**: Utilizes state-of-the-art facial detection and recognition algorithms
 - **Multi-format Support**: Works with both images and video inputs
-- **Automated Attendance Tracking**: Generates CSV reports of attendance records
-- **Visual Feedback**: Marks recognized faces with bounding boxes and labels in output images
-- **Scalable Architecture**: Can be trained on new individuals with minimal effort
+- **Automated Attendance Tracking**: Generates attendance records in multiple formats (CSV, Excel, JSON)
+- **Visual Feedback**: Marks recognized faces with bounding boxes and labels in output media
+- **Modular Architecture**: Well-structured, maintainable codebase with proper separation of concerns
+- **Configurable**: Customizable settings via configuration files
+- **Robust Logging**: Comprehensive logging for better troubleshooting
 
 ## Technical Implementation
 
@@ -22,6 +24,7 @@ AttendanceCV is an advanced facial recognition system designed to automate atten
 - Pandas (data management)
 - NumPy (numerical operations)
 - PIL (image processing)
+- PyYAML (configuration management)
 
 ### Machine Learning Approach
 The system employs a sophisticated facial recognition pipeline:
@@ -33,17 +36,47 @@ The system employs a sophisticated facial recognition pipeline:
 
 ## System Architecture
 
-### Training Module (`training.py`)
-- Processes labeled training images from a dataset directory
-- Extracts facial features from each training image
-- Trains SVM model on PCA-transformed facial features
-- Saves trained models for later use in prediction
+The project follows a modular architecture with clear separation of concerns:
 
-### Recognition Module (`prediction.py`)
-- Processes input media (images or videos) from the media directory
-- Detects and recognizes faces using the pre-trained models
-- Generates visual output with labeled faces
-- Creates attendance records in CSV format
+```
+AttendanceCV/
+├── attendance/            # Core package
+│   ├── face_recognition/  # Face detection and recognition
+│   ├── data/             # Data loading and processing
+│   ├── models/           # Model training and processing
+│   └── utils/            # Utilities (config, logging)
+├── config/               # Configuration files
+├── scripts/              # Entry point scripts
+│   ├── train.py          # Training script
+│   └── predict.py        # Prediction script
+├── trained_models/       # Saved model files
+├── dataset/              # Training data
+├── media/                # Media for processing
+├── logs/                 # Log files
+└── tests/                # Test suite
+```
+
+### Core Components
+
+1. **Configuration Management**: Load and manage settings from YAML config files
+2. **Face Detection**: Process images/videos to detect face locations
+3. **Face Recognition**: Recognize detected faces using trained models
+4. **Data Loading**: Load and preprocess training and prediction data
+5. **Model Training**: Train PCA and SVM models with hyperparameter tuning options
+6. **Attendance Processing**: Generate and export attendance records
+
+## Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/AttendanceCV.git
+   cd AttendanceCV
+   ```
+
+2. Install dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
 
 ## Usage
 
@@ -59,14 +92,37 @@ dataset/
 │   └── ...
 ```
 
+### Configuration
+Edit the configuration in `config/config.yaml` to customize settings:
+- Data paths
+- Model parameters
+- Face detection options
+- Processing options
+
 ### Training Process
-1. Place labeled training data in the dataset directory
-2. Run `training.py` to build and save the recognition models
+Train the recognition models:
+```
+python scripts/train.py
+```
+
+Additional options:
+```
+python scripts/train.py --config custom_config.yaml  # Use custom config
+python scripts/train.py --grid-search               # Enable hyperparameter tuning
+```
 
 ### Recognition Process
-1. Place test media in the media directory
-2. Run `prediction.py` to process the media and generate attendance records
-3. Review generated attendance CSV file and annotated output images
+Process media and generate attendance records:
+```
+python scripts/predict.py
+```
+
+Additional options:
+```
+python scripts/predict.py --media-dir /path/to/media   # Custom media directory
+python scripts/predict.py --save-annotated            # Save annotated media
+python scripts/predict.py --export-format excel       # Export format (csv, excel, json)
+```
 
 ## Applications
 
@@ -83,6 +139,7 @@ Potential areas for expansion include:
 - Web or mobile application interface
 - Cloud-based storage for attendance records
 - Integration with learning management systems or HR software
+- API for integration with other systems
 
 ---
 

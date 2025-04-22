@@ -1,0 +1,32 @@
+# Paths
+paths:
+  dataset: "dataset/"
+  media: "media/"
+  models_dir: "trained_models/"
+  pca_model: "trained_models/pca_model.pickle"
+  svm_model: "trained_models/svm_model.pickle"
+  attendance_file: "Attendance.csv"
+
+# Model parameters
+model:
+  pca:
+    n_components: 0.95  # Variance retained
+  svm:
+    kernel: 'rbf'
+    class_weight: 'balanced'
+    C: 1000.0
+    gamma: 0.0005
+
+# Face detection parameters
+face_detection:
+  model: 'hog'  # can be 'hog' or 'cnn'
+  scale_factor: 1.0
+
+# Image processing
+image_processing:
+  resize_width: 512
+  resize_height: 512
+
+# Video processing
+video_processing:
+  frame_interval: 1  # Process every n seconds
